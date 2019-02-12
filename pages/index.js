@@ -2,29 +2,34 @@ import Link from 'next/link'
 import Router from 'next/router'
 // lodash は index ページにしか追加されない、ここが Code Splitting
 import _ from 'lodash'
-import { Layout, PostLink } from './shared'
+
+const client = 100;
+const detail = 200;
 
 export default () => (
-  <div>
-    <Layout>
-      <p>This is the index page</p>
-      <ul>
-        <li><PostLink title="Hello Next.js"/></li>
-        <li><PostLink title="Learn Next.js is awesome"/></li>
-        <li><PostLink title="Deploy apps with Zeit"/></li>
-      </ul>
-    </Layout>
-
-    <div>
-      Click{' '}
-      <Link href="/about">
-        <a>about</a>
-      </Link>{' '}
-      to read more
-    </div>
-
-    <div>
-      Click <span onClick={() => Router.push('/about')}>here</span> to read more
-    </div>
-  </div>
+  <ul>
+    <li>
+      <Link href='/cl?client=100&detail=200' as={`/cl-${client}/d-${detail}`}>
+        <a>parameterized-routing</a>
+      </Link>
+    </li>
+    <li>
+      Click <span onClick={() => Router.push('/fetch/color')}>here</span> to /fetch/color
+    </li>
+    <li>
+      <Link href='/blog?id=first' as='/blog/first'>
+        <a>My first blog post</a>
+      </Link>
+    </li>
+    <li>
+      <Link href='/blog?id=second' as='/blog/second'>
+        <a>My second blog post</a>
+      </Link>
+    </li>
+    <li>
+      <Link href='/blog?id=last' as='/blog/last'>
+        <a>My last blog post</a>
+      </Link>
+    </li>
+  </ul>
 )

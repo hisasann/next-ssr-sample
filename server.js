@@ -1,28 +1,20 @@
+// https://github.com/zeit/next.js/blob/master/examples/parameterized-routing/server.js
 const express = require('express')
 const next = require('next')
 
+const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
-app.prepare()
-.then(() => {
+app.prepare().then(() => {
   const server = express()
 
-  // TODO
-  // ここでカスタムなルーティングしてしまうとせっかく Nuxt でフロントで SPA してくえるのにかかわらず
-  // サーバーにリクエストがきてしまう
-  server.get('/p/:id', (req, res) => {
-    const actualPage = '/post'
-    const queryParams = { title: req.params.id }
-    app.render(req, res, actualPage, queryParams)
-  })
-
-  server.get('/c-:a/e-:b', (req, res) => {
-    const actualPage = '/parent-child'
+  server.get('/cl-:client/d-:detail', (req, res) => {
+    const actualPage = '/cl'
     const queryParams = {
-      a: req.params.a,
-      b: req.params.b
+      client: req.params.client,
+      detail: req.params.detail
     }
     app.render(req, res, actualPage, queryParams)
   })
@@ -31,12 +23,12 @@ app.prepare()
     return handle(req, res)
   })
 
-  server.listen(3000, (err) => {
+  server.listen(port, (err) => {
     if (err) throw err
-    console.log('> Ready on http://localhost:3000')
+    console.log(`> Ready on http://localhost:${port}`)
   })
-})
-.catch((ex) => {
+}).catch((ex) => {
   console.error(ex.stack)
   process.exit(1)
 })
+
